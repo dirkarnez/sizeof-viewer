@@ -14,10 +14,10 @@ int main()
 {
     switch(sizeof(void*)) {
      case 8:
-         std::cout << "64-bit system";
+         std::cout << "64-bit system" << std::endl;
          break;
      default:
-         std::cout << "unknown bit size system";
+         std::cout << "unknown bit size system" << std::endl;
     }
  
     Empty e;
@@ -47,4 +47,7 @@ int main()
       << "J) sizeof(IntCharChar)              " << sizeof(IntCharChar) << '\n'
       << "K) sizeof(CharIntChar)              " << sizeof(CharIntChar) << '\n'
       << "L) sizeof(CharShortChar)            " << sizeof(CharShortChar) << '\n';
+ 
+  std::cin.get();
+  return 0;
 }
