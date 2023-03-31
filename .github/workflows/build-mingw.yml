@@ -10,7 +10,7 @@ jobs:
     name: Create Release
     runs-on: windows-latest
     env:
-      mingwTargetZip: sizeof-viewer-${{ github.ref_name }}-mingw64-x86_64-posix-seh-rev0-8.1.0.zip
+      mingwTargetZip: sizeof-viewer-${{ github.ref_name }}-mingw64-x86_64-posix-seh-11.2.0.zip
     steps:
       - uses: actions/checkout@v3
       
