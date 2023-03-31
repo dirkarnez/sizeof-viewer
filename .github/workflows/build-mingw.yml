@@ -1,0 +1,37 @@
+name: cpp-cmake-mingw-prebuilt-release-actions-workflow
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+  
+jobs:
+  build:
+    name: Create Release
+    runs-on: windows-latest
+    env:
+      mingwTargetZip: sizeof-viewer-${{ github.ref_name }}-mingw64-x86_64-posix-seh-rev0-8.1.0.zip
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: cmake
+        shell: cmd
+        run: gcc --version && cmake.exe -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -B./cmake-build
+        
+      - name: cmake install
+        shell: cmd
+        run: cd cmake-build && cmake --build .
+        
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          directory: "cmake-build"
+          filename: "${{ env.mingwTargetZip }}"
+          
+      - name: Release prebuilt
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "cmake-build/${{ env.mingwTargetZip }}"
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
