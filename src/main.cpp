@@ -12,6 +12,14 @@ struct CharShortChar { char c; short s; char c2; };
  
 int main()
 {
+    switch(sizeof(void*)) {
+     case 8:
+         std::cout << "64-bit system";
+         break;
+     default:
+         std::cout << "unknown bit size system";
+    }
+ 
     Empty e;
     Derived d;
     Base& b = d;
