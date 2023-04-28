@@ -22,14 +22,14 @@ jobs:
         shell: bash
         run: |
           gcc --version && cmake -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . && \
-          .\sizeof-viewer > report.txt
+          ./sizeof-viewer > report.txt
           
       - name: cmake build ubuntu then run
         if: ${{ matrix.container == 'ubuntu-latest' }}
         shell: bash
         run: |
           gcc --version && cmake -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . && \
-          .\sizeof-viewer > report.txt
+          ./sizeof-viewer > report.txt
           
       - name: cmake build windows then run
         if: ${{ matrix.container == 'windows-latest' }}
