@@ -7,32 +7,95 @@ on:
   
 jobs:
   build:
+    strategy:
+      matrix:
+        container: [ ubuntu-latest, macos-latest, windows-latest ]
+        build_type: [ Release ]
+        
     name: Create Release
-    runs-on: windows-latest
-    env:
-      mingwTargetZip: sizeof-viewer-${{ github.ref_name }}-mingw64-x86_64-posix-seh-11.2.0.zip
+    runs-on: ${{ matrix.container }}
     steps:
       - uses: actions/checkout@v3
       
-      - name: cmake
+      - name: cmake build macos then run
+        if: ${{ matrix.container == 'macos-latest' }}
+        shell: bash
+        run: |
+          gcc --version && cmake.exe -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . && \
+          .\sizeof-viewer > report.txt
+          
+      - name: cmake build ubuntu then run
+        if: ${{ matrix.container == 'ubuntu-latest' }}
+        shell: bash
+        run: |
+          gcc --version && cmake.exe -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . && \
+          .\sizeof-viewer > report.txt
+          
+      - name: cmake build windows then run
+        if: ${{ matrix.container == 'windows-latest' }}
         shell: cmd
-        run: gcc --version && cmake.exe -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -B./cmake-build
-        
-      - name: cmake install
-        shell: cmd
-        run: cd cmake-build && cmake --build .
+        run: |
+          gcc --version && cmake.exe -G"MinGW Makefiles" -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . &&^
+          .\sizeof-viewer.exe > report.txt
         
       - name: Archive Release
         uses: thedoctor0/zip-release@master
+        if: ${{ matrix.container == 'windows-latest' }}
         with:
           type: 'zip'
-          path: "sizeof-viewer.exe"
+          path: |
+            sizeof-viewer.exe
+            report.txt
           directory: "cmake-build"
-          filename: "${{ env.mingwTargetZip }}"
+          filename: sizeof-viewer-${{ github.ref_name }}-mingw64-x86_64-posix-seh-11.2.0.zip
           
-      - name: Release prebuilt
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        if: ${{ matrix.container == 'ubuntu-latest' }}
+        with:
+          type: 'zip'
+          path: |
+            sizeof-viewer
+            report.txt
+          directory: "cmake-build"
+          filename: sizeof-viewer-${{ github.ref_name }}-ubuntu-gcc-11.3.0.zip
+          
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        if: ${{ matrix.container == 'macos-latest' }}
+        with:
+          type: 'zip'
+          path: |
+            sizeof-viewer
+            report.txt
+          directory: "cmake-build"
+          filename: sizeof-viewer-${{ github.ref_name }}-macos-clang-14.0.0.14000029.zip
+          
+
+
+
+
+          
+      - if: ${{ matrix.container == 'windows-latest' }}
+        name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "cmake-build/${{ env.mingwTargetZip }}"
+          artifacts: cmake-build/sizeof-viewer-${{ github.ref_name }}-mingw64-x86_64-posix-seh-11.2.0.zip
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - if: ${{ matrix.container == 'macos-latest' }}
+        name: Release prebuilt
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: cmake-build/sizeof-viewer-${{ github.ref_name }}-macos-clang-14.0.0.14000029.zip
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - if: ${{ matrix.container == 'ubuntu-latest' }}
+        name: Release prebuilt
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: cmake-build/sizeof-viewer-${{ github.ref_name }}-ubuntu-gcc-11.3.0.zip
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
