@@ -24,7 +24,7 @@ int main()
     Empty e;
     Derived d;
     Base& b = d;
-    [[maybe_unused]] Bit bit;
+    Bit bit;
     int a[10];
     std::cout 
       << "sizeof empty class:              " << sizeof e         << '\n'
@@ -33,6 +33,7 @@ int main()
 //    << "sizeof incomplete type:          " << sizeof(int[])    << '\n' // error
 //    << "sizeof bit field:                " << sizeof bit.bit   << '\n' // error
       << "sizeof(Bit) class:               " << sizeof(Bit)      << '\n'
+      << "sizeof(Bit) instance:            " << sizeof(bit)      << '\n'
       << "sizeof(int[10]) array of 10 int: " << sizeof(int[10])  << '\n'
       << "sizeof a        array of 10 int: " << sizeof a         << '\n'
       << "length of array of 10 int:       " << ((sizeof a) / (sizeof *a))   << '\n'
