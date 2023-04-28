@@ -21,21 +21,21 @@ jobs:
         if: ${{ matrix.container == 'macos-latest' }}
         shell: bash
         run: |
-          gcc --version && cmake.exe -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . && \
+          gcc --version && cmake -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . && \
           .\sizeof-viewer > report.txt
           
       - name: cmake build ubuntu then run
         if: ${{ matrix.container == 'ubuntu-latest' }}
         shell: bash
         run: |
-          gcc --version && cmake.exe -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . && \
+          gcc --version && cmake -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . && \
           .\sizeof-viewer > report.txt
           
       - name: cmake build windows then run
         if: ${{ matrix.container == 'windows-latest' }}
         shell: cmd
         run: |
-          gcc --version && cmake.exe -G"MinGW Makefiles" -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . &&^
+          gcc --version && cmake -G"MinGW Makefiles" -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_BUILD_TYPE=Release -B./cmake-build && cd cmake-build && cmake --build . &&^
           .\sizeof-viewer.exe > report.txt
         
       - name: Archive Release
