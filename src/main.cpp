@@ -48,6 +48,5 @@ int main()
       << "K) sizeof(CharIntChar)              " << sizeof(CharIntChar) << '\n'
       << "L) sizeof(CharShortChar)            " << sizeof(CharShortChar) << '\n';
  
-  std::cin.get();
   return 0;
 }
