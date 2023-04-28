@@ -1,5 +1,6 @@
 #include <iostream>
- 
+#include <stdint.h>
+
 struct Empty {};
 struct Base { int a; };
 struct Derived : Base { int b; };
@@ -26,27 +27,35 @@ int main()
     [[maybe_unused]] Bit bit;
     int a[10];
     std::cout 
-      << "1) sizeof empty class:              " << sizeof e         << '\n'
-      << "2) sizeof pointer:                  " << sizeof &e        << '\n'
-//    << "3) sizeof function:                 " << sizeof(void())   << '\n' // error
-//    << "4) sizeof incomplete type:          " << sizeof(int[])    << '\n' // error
-//    << "5) sizeof bit field:                " << sizeof bit.bit   << '\n' // error
-      << "6) sizeof(Bit) class:               " << sizeof(Bit)      << '\n'
-      << "7) sizeof(int[10]) array of 10 int: " << sizeof(int[10])  << '\n'
-      << "8) sizeof a        array of 10 int: " << sizeof a         << '\n'
-      << "9) length of array of 10 int:       " << ((sizeof a) / (sizeof *a))   << '\n'
-      << "A) length of array of 10 int (2):   " << ((sizeof a) / (sizeof a[0])) << '\n'
-      << "B) sizeof the Derived class:        " << sizeof d         << '\n'
-      << "C) sizeof the Derived through Base: " << sizeof b         << '\n'
-      << "D) sizeof(unsigned)                 " << sizeof(unsigned) << '\n'
-      << "E) sizeof(int)                      " << sizeof(int)      << '\n'
-      << "F) sizeof(short)                    " << sizeof(short)    << '\n'
-      << "G) sizeof(char)                     " << sizeof(char)     << '\n'
-      << "H) sizeof(CharChar)                 " << sizeof(CharChar) << '\n'
-      << "I) sizeof(CharCharInt)              " << sizeof(CharCharInt) << '\n'
-      << "J) sizeof(IntCharChar)              " << sizeof(IntCharChar) << '\n'
-      << "K) sizeof(CharIntChar)              " << sizeof(CharIntChar) << '\n'
-      << "L) sizeof(CharShortChar)            " << sizeof(CharShortChar) << '\n';
+      << "sizeof empty class:              " << sizeof e         << '\n'
+      << "sizeof pointer:                  " << sizeof &e        << '\n'
+//    << "sizeof function:                 " << sizeof(void())   << '\n' // error
+//    << "sizeof incomplete type:          " << sizeof(int[])    << '\n' // error
+//    << "sizeof bit field:                " << sizeof bit.bit   << '\n' // error
+      << "sizeof(Bit) class:               " << sizeof(Bit)      << '\n'
+      << "sizeof(int[10]) array of 10 int: " << sizeof(int[10])  << '\n'
+      << "sizeof a        array of 10 int: " << sizeof a         << '\n'
+      << "length of array of 10 int:       " << ((sizeof a) / (sizeof *a))   << '\n'
+      << "length of array of 10 int (2):   " << ((sizeof a) / (sizeof a[0])) << '\n'
+      << "sizeof the Derived class:        " << sizeof d         << '\n'
+      << "sizeof the Derived through Base: " << sizeof b         << '\n'
+      << "sizeof(unsigned)                 " << sizeof(unsigned) << '\n'
+      << "sizeof(int)                      " << sizeof(int)      << '\n'
+      << "sizeof(long)                     " << sizeof(long)      << '\n'
+      << "sizeof(long long)                " << sizeof(long long) << '\n'
+      << "sizeof(uint8_t)                " << sizeof(uint8_t) << '\n'
+      << "sizeof(uint16_t)                " << sizeof(uint16_t) << '\n'
+      << "sizeof(uint32_t)                " << sizeof(uint32_t) << '\n'
+      << "sizeof(uint64_t)                " << sizeof(uint64_t) << '\n'
+      << "sizeof(unsigned long)                " << sizeof(unsigned long) << '\n'
+      << "sizeof(unsigned long long)                " << sizeof(unsigned long long) << '\n'
+      << "sizeof(short)                    " << sizeof(short)    << '\n'
+      << "sizeof(char)                     " << sizeof(char)     << '\n'
+      << "sizeof(CharChar)                 " << sizeof(CharChar) << '\n'
+      << "sizeof(CharCharInt)              " << sizeof(CharCharInt) << '\n'
+      << "sizeof(IntCharChar)              " << sizeof(IntCharChar) << '\n'
+      << "sizeof(CharIntChar)              " << sizeof(CharIntChar) << '\n'
+      << "sizeof(CharShortChar)            " << sizeof(CharShortChar) << '\n';
  
   return 0;
 }
