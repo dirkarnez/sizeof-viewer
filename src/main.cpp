@@ -11,6 +11,11 @@ struct IntCharChar   { int i;  char c;  char c2; };
 struct CharIntChar   { char c; int i;   char c2; };
 struct CharShortChar { char c; short s; char c2; };
  
+
+struct Foo {
+    void bar() const { }
+};
+
 int main()
 {
     switch(sizeof(void*)) {
@@ -28,7 +33,9 @@ int main()
     int a[10];
     std::cout 
       << "sizeof empty class:              " << sizeof e         << '\n'
+      << "sizeof(&Foo::bar): "           << sizeof(&Foo::bar)         << '\n'
       << "sizeof pointer:                  " << sizeof &e        << '\n'
+      << "sizeof(void(*)())   " << sizeof(void(*)())  << '\n'
 //    << "sizeof function:                 " << sizeof(void())   << '\n' // error
 //    << "sizeof incomplete type:          " << sizeof(int[])    << '\n' // error
 //    << "sizeof bit field:                " << sizeof bit.bit   << '\n' // error
@@ -42,6 +49,8 @@ int main()
       << "sizeof the Derived through Base: " << sizeof b         << '\n'
       << "sizeof(unsigned)                 " << sizeof(unsigned) << '\n'
       << "sizeof(int)                      " << sizeof(int)      << '\n'
+      << "sizeof(int*)                    " << sizeof(int*) << "\n"
+      << "sizeof(double*)                 " << sizeof(double*) << "\n"
       << "sizeof(long)                     " << sizeof(long)      << '\n'
       << "sizeof(long long)                " << sizeof(long long) << '\n'
       << "sizeof(uint8_t)                " << sizeof(uint8_t) << '\n'
@@ -56,7 +65,7 @@ int main()
       << "sizeof(CharCharInt)              " << sizeof(CharCharInt) << '\n'
       << "sizeof(IntCharChar)              " << sizeof(IntCharChar) << '\n'
       << "sizeof(CharIntChar)              " << sizeof(CharIntChar) << '\n'
-      << "sizeof(CharShortChar)            " << sizeof(CharShortChar) << '\n';
+      << "sizeof(CharShortChar)            " << sizeof(CharShortChar) << std::endl;
  
   return 0;
 }
